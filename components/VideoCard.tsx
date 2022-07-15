@@ -5,9 +5,7 @@ import { Video } from "types"
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { GoVerified } from 'react-icons/go';
-import { BsPlay } from 'react-icons/bs';
-
-
+import useAuthStore from "store/authStore";
 
 
 interface IProps {
@@ -22,6 +20,8 @@ export default function VideoCard({
   const [playing, setPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  const { userProfile } = useAuthStore();
 
   const onVideoPress = () => {
     if (playing) {
@@ -39,7 +39,7 @@ export default function VideoCard({
         <div>
           <div className="flex gap-3 p-2 font-semibold rounded cursor-pointer">
             <div className="w-10 h-10 md:w-16 md:h-16">
-              <Link href="/">
+              <Link href={`/profile/${userProfile?._id}`}>
                 <>
                   <Image
                     width={62}
@@ -52,7 +52,7 @@ export default function VideoCard({
               </Link>
             </div>
             <div>
-              <Link href="/">
+              <Link href={`/profile/${userProfile?._id}`}>
                 <div className='flex items-center gap-2'>
                   <p className='flex gap-2 items-center md:text-md font-bold text-primary'>{post.postedBy.userName} {` `}  <GoVerified className="text-blue-400 text-md" /></p>
                   <p className="hidden md:block capitalize font-medium text-xs text-gray-500">
@@ -75,7 +75,7 @@ export default function VideoCard({
               setIsHover(false)
             }}
           >
-            <Link href={`/`}>
+            <Link href={`/detail/${post._id}`}>
               <video
                 ref={videoRef}
                 loop
